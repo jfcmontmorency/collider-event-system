@@ -17,5 +17,12 @@
   ],
   "author": {
     "name": "jfcartier"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Demo",
+      "description": "A walkable scene demonstrating Conditions, Actions, and Variables together.",
+      "path": "Samples~/Demo"
+    }
+  ]
 }
