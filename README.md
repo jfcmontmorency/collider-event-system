@@ -58,6 +58,11 @@ Conditions/Actions right away.
 Import **Demo** from this package's page in the Package Manager window for a walkable scene that puts
 several Conditions, Actions, and Variables to use together.
 
+Its materials are authored for URP. On a project still using the Built-in Render Pipeline, they'll show up
+pink until you run **Window > Rendering > Render Pipeline Converter** (Unity's own built-in fixer) - a
+one-time, couple-clicks step, not something wrong with the package itself. The package's actual Conditions
+and Actions have no material/shader dependency at all; this only affects the optional Demo sample.
+
 ## Gotchas
 
 A few things that aren't bugs, but are easy to trip over:

@@ -27,7 +27,7 @@
   "samples": [
     {
       "displayName": "Demo",
-      "description": "A walkable scene demonstrating Conditions, Actions, and Variables together.",
+      "description": "A walkable scene demonstrating Conditions, Actions, and Variables together. Materials are authored for URP - on Built-in RP, run Window > Rendering > Render Pipeline Converter first.",
       "path": "Samples~/Demo"
     }
   ]
