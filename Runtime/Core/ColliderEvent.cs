@@ -66,6 +66,11 @@ namespace ColliderEventSystem
             return false;
         }
 
+        // A hair larger than the real collider so the translucent gizmo doesn't z-fight with a same-sized
+        // visible mesh on the object. Proportional rather than a fixed add-on, so it stays negligible
+        // regardless of the object's actual size.
+        private const float GizmoInflation = 1.0001f;
+
         private void OnDrawGizmos()
         {
             if (m_Collider == null) m_Collider = GetComponent<Collider>();
@@ -79,7 +84,7 @@ namespace ColliderEventSystem
                     // Bounds is always an axis-aligned world-space box, so it can't follow the object's
                     // rotation. Drawing in the collider's own local space (via Gizmos.matrix) can.
                     Gizmos.matrix = transform.localToWorldMatrix;
-                    Gizmos.DrawCube(box.center, box.size);
+                    Gizmos.DrawCube(box.center, box.size * GizmoInflation);
                     Gizmos.matrix = Matrix4x4.identity;
                     break;
 
@@ -87,7 +92,7 @@ namespace ColliderEventSystem
                     // Mirrors Unity's own physics behaviour for SphereCollider: non-uniform scale is
                     // ignored, only the largest axis is used.
                     float sphereScale = Mathf.Max(transform.lossyScale.x, transform.lossyScale.y, transform.lossyScale.z);
-                    Gizmos.DrawSphere(transform.TransformPoint(sphere.center), sphere.radius * sphereScale);
+                    Gizmos.DrawSphere(transform.TransformPoint(sphere.center), sphere.radius * sphereScale * GizmoInflation);
                     break;
 
                 case CapsuleCollider capsule:
@@ -95,13 +100,13 @@ namespace ColliderEventSystem
                     break;
 
                 case MeshCollider meshCollider when meshCollider.sharedMesh != null:
-                    Gizmos.DrawMesh(meshCollider.sharedMesh, transform.position, transform.rotation, transform.lossyScale);
+                    Gizmos.DrawMesh(meshCollider.sharedMesh, transform.position, transform.rotation, transform.lossyScale * GizmoInflation);
                     break;
 
                 default:
                     // Uncommon collider type (e.g. TerrainCollider) - fall back to the bounding box.
                     Bounds bounds = m_Collider.bounds;
-                    Gizmos.DrawCube(bounds.center, bounds.size);
+                    Gizmos.DrawCube(bounds.center, bounds.size * GizmoInflation);
                     break;
             }
         }
@@ -145,8 +150,8 @@ namespace ColliderEventSystem
                     break;
             }
 
-            float radius = capsule.radius * radiusScale;
-            float height = Mathf.Max(capsule.height * heightScale, radius * 2f);
+            float radius = capsule.radius * radiusScale * GizmoInflation;
+            float height = Mathf.Max(capsule.height * heightScale, radius * 2f) * GizmoInflation;
 
             Vector3 meshScale = new Vector3(radius / CapsulePrimitiveRadius, height / CapsulePrimitiveHeight, radius / CapsulePrimitiveRadius);
             Gizmos.DrawMesh(s_CapsuleMesh, transform.TransformPoint(capsule.center), transform.rotation * axisRotation, meshScale);

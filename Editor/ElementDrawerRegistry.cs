@@ -38,6 +38,7 @@ namespace ColliderEventSystem.Editor
             Register(typeof(InputCondition), InputConditionDrawer.Draw, InputConditionDrawer.GetHeight);
             Register(typeof(LookingAtCondition), LookingAtConditionDrawer.Draw, LookingAtConditionDrawer.GetHeight);
             Register(typeof(InstantiatePrefabAction), InstantiatePrefabActionDrawer.Draw, InstantiatePrefabActionDrawer.GetHeight);
+            Register(typeof(RotationCondition), RotationConditionDrawer.Draw, RotationConditionDrawer.GetHeight);
         }
 
         public static void Register(Type type, Action<Rect, SerializedObject> draw, Func<SerializedObject, float> getHeight)

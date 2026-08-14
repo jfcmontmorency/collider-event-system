@@ -15,10 +15,22 @@ namespace ColliderEventSystem
             Z,
         }
 
+        public enum RotationSpace
+        {
+            World,
+            Self,
+            RelativeToTransform,
+        }
+
         [Tooltip("The Transform to check.")]
         public Transform target;
 
-        [Tooltip("Measures rotation relative to this Transform instead of world space. Leave empty for world space.")]
+        [Tooltip("World measures the Transform's world rotation (includes any parent's rotation). Self " +
+                 "measures its local rotation only - the same numbers shown on the Transform component " +
+                 "itself. Relative To Transform measures its rotation relative to another Transform you pick.")]
+        public RotationSpace space = RotationSpace.World;
+
+        [Tooltip("Used when Space is Relative To Transform.")]
         public Transform relativeTo;
 
         public Axis axis = Axis.Y;
@@ -36,16 +48,36 @@ namespace ColliderEventSystem
 
         private float GetCurrentAngle()
         {
-            Vector3 euler = relativeTo != null
-                ? (Quaternion.Inverse(relativeTo.rotation) * target.rotation).eulerAngles
-                : target.eulerAngles;
+            Vector3 euler;
+            switch (space)
+            {
+                case RotationSpace.Self:
+                    euler = target.localEulerAngles;
+                    break;
 
+                case RotationSpace.RelativeToTransform:
+                    euler = relativeTo != null
+                        ? (Quaternion.Inverse(relativeTo.rotation) * target.rotation).eulerAngles
+                        : target.eulerAngles;
+                    break;
+
+                default:
+                    euler = target.eulerAngles;
+                    break;
+            }
+
+            float raw;
             switch (axis)
             {
-                case Axis.X: return euler.x;
-                case Axis.Y: return euler.y;
-                default: return euler.z;
+                case Axis.X: raw = euler.x; break;
+                case Axis.Y: raw = euler.y; break;
+                default: raw = euler.z; break;
             }
+
+            // eulerAngles is always in [0, 360) - a small negative rotation reads as e.g. 355, not -5,
+            // which would satisfy "Greater Than 80" even though it barely rotated (the wrong way, at
+            // that). Normalize to (-180, 180] so the comparison matches what it actually looks like.
+            return Mathf.DeltaAngle(0f, raw);
         }
     }
 }

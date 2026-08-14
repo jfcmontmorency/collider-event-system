@@ -15,7 +15,7 @@ condition watchers, without writing code.
 
 1. Add a Collider (e.g. Box Collider) to a GameObject, tick "Is Trigger", then add **Collider Event**.
 2. Under Conditions, click "Add Condition" and pick one (e.g. Distance).
-3. Under Actions, click "Add Action" and pick one (e.g. Invoke Event).
+3. Under Actions, click "Add Action" and pick one (e.g. Invoke Events).
 4. Enter Play Mode and walk into the zone.
 
 ## Conditions
@@ -33,7 +33,7 @@ Prefab.
 ## Variables
 
 Instead of typing a string key, create a Variable asset (**Assets > Create > Collider Event System >
-Variables**) and drag it into a Variable Condition or Set Variable Action - or click the "+" next to the
+Variables**) and drag it into a Variable Condition or Variable Action - or click the "+" next to the
 field to create one on the spot. Toggle **Persistent** on a Variable to have it saved to disk and
 reloaded automatically between play sessions.
 
