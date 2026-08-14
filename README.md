@@ -47,6 +47,40 @@ independent value like HP without writing a script for it.
 - **After Trigger** - what happens once Actions have run (deactivate, destroy, do nothing and reset, or
   wait and run Exit Actions once the Conditions/zone go inactive again).
 
+## Prefabs
+
+`Prefabs/` has ready-made trigger zones (Cube, Sphere, Capsule) - each a Collider set to "Is Trigger" with a
+Collider Event already attached, so you can skip the manual setup in Quick Start above and start adding
+Conditions/Actions right away.
+
+## Sample
+
+Import **Demo** from this package's page in the Package Manager window for a walkable scene that puts
+several Conditions, Actions, and Variables to use together.
+
+## Gotchas
+
+A few things that aren't bugs, but are easy to trip over:
+
+- **Rotation Condition measures world rotation by default.** If the object you're checking has a rotated
+  parent, its world rotation includes the parent's rotation too - not just the number shown on the
+  object's own Transform. Switch **Space** to **Self** to compare its local rotation instead.
+- **`Transform.eulerAngles` is always 0-360, never negative.** A slight rotation "the wrong way" (e.g. -5°)
+  reads as 355°, which can satisfy a "Greater Than" comparison you didn't intend. Rotation Condition
+  already normalizes this internally, but keep it in mind if you inspect rotation values elsewhere.
+- **Scene Action loading a scene not in Build Settings works in the Editor, but not in a real build.**
+  Unity's Editor Play Mode has a convenience fallback that resolves a scene by name across the whole
+  project; a built player doesn't have it. Add every scene you load to Build Settings before shipping.
+- **Cancel Physics (Transform Action) doesn't pause momentum, it erases it.** A kinematic Rigidbody always
+  reports zero velocity. Once restored to non-kinematic after the move finishes, the object resumes at
+  rest, not from whatever speed it had before - it won't carry on falling at its old speed, for example.
+- **Drag from the Hierarchy, not the Project window, into a Target field.** Dragging a prefab *asset* gives
+  you a reference to the asset itself (whose values never change at runtime), not the instance in your
+  scene. This is a general Unity gotcha, not specific to this package, but it's an easy mix-up.
+- **A Cylinder's Collider is actually a Capsule.** Unity has no native cylinder-shaped collider - the
+  default Cylinder primitive gets a Capsule Collider, rounded ends included. The Debug Color gizmo draws
+  the real collider shape, so a "cylinder" zone will show (and behave) like a capsule.
+
 ## Credits
 
 Initially built starting from the concept behind Alexander Scott's

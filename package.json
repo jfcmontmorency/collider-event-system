@@ -18,6 +18,12 @@
   "author": {
     "name": "jfcartier"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jfcmontmorency/collider-event-system.git"
+  },
+  "documentationUrl": "https://github.com/jfcmontmorency/collider-event-system#readme",
+  "changelogUrl": "https://github.com/jfcmontmorency/collider-event-system/blob/main/CHANGELOG.md",
   "samples": [
     {
       "displayName": "Demo",
