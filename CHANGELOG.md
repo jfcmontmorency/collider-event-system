@@ -3,6 +3,16 @@
 All notable changes to this package are documented here. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.1.2]
+
+### Fixed
+
+- Demo sample's materials (Demo Dark, Demo Grid, Demo Condition Met, Demo Transparent) now use custom
+  Shader Graphs targeting both URP and Built-In, instead of a URP-only shader - no more pink materials or
+  running the Render Pipeline Converter on a Built-In project.
+- Demo sample now bundles its own font (Inter, SIL Open Font License) instead of referencing the Editor's
+  TMP Essentials font, which doesn't exist in a project that has never imported TextMeshPro before.
+
 ## [0.1.1]
 
 ### Fixed
