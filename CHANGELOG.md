@@ -3,6 +3,14 @@
 All notable changes to this package are documented here. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.1.6]
+
+### Fixed
+
+- `ColliderEvent`'s cached capsule gizmo mesh is now explicitly cleared on every Play Mode entry
+  (`[InitializeOnEnterPlayMode]`), so it can never carry a stale reference under Fast Enter Play Mode /
+  disabled domain reload.
+
 ## [0.1.5]
 
 ### Added

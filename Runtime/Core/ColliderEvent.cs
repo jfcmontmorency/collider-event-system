@@ -115,6 +115,18 @@ namespace ColliderEventSystem
         private const float CapsulePrimitiveHeight = 2f;
         private const float CapsulePrimitiveRadius = 0.5f;
 
+#if UNITY_EDITOR
+        // With Fast Enter Play Mode / domain reload disabled, static fields survive across Play sessions -
+        // this explicitly clears the cache on every Play Mode entry regardless, so it can never carry a
+        // stale reference. The mesh itself never depends on Play Mode state; this exists to satisfy that
+        // guarantee up front rather than rely on it happening to still be valid.
+        [UnityEditor.InitializeOnEnterPlayMode]
+        private static void ResetCapsuleMeshCache()
+        {
+            s_CapsuleMesh = null;
+        }
+#endif
+
         private void DrawCapsuleGizmo(CapsuleCollider capsule)
         {
             if (s_CapsuleMesh == null)
