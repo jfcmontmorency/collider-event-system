@@ -3,6 +3,13 @@
 All notable changes to this package are documented here. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.1.5]
+
+### Added
+
+- Demo's notification sound now also ships as a lossless `.wav`, alongside the original `.mp3` (same file
+  name), per Asset Store guidelines against lossy-only audio.
+
 ## [0.1.4]
 
 ### Fixed
