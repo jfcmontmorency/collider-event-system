@@ -3,6 +3,15 @@
 All notable changes to this package are documented here. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.1.3]
+
+### Changed
+
+- Demo sample's on-screen label switched from TextMeshPro to the legacy UI Text, to avoid the one-time
+  "Import TMP Essentials" prompt Unity shows the first time TextMeshPro is used in a project - no import
+  step of any kind is needed to try the Demo now. Uses the same bundled Inter font (a plain .ttf, no
+  TMP-specific font asset needed).
+
 ## [0.1.2]
 
 ### Fixed
