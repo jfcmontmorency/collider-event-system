@@ -3,6 +3,13 @@
 All notable changes to this package are documented here. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.1.4]
+
+### Fixed
+
+- Demo sample: a misconfigured Shader Graph material, a mislabeled scene object, and a non-functional
+  prefab reference, all in the demo scene itself.
+
 ## [0.1.3]
 
 ### Changed

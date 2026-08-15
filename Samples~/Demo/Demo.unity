@@ -487,6 +487,10 @@ PrefabInstance:
 
         Prefab'
       objectReference: {fileID: 0}
+    - target: {fileID: 9155540808454925157, guid: 4880c81ee8f04406d886a5f6f2dc4767, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.75
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -857,7 +861,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ColliderEventSystem::ColliderEventSystem.InstantiatePrefabAction
   targetMode: 1
   destination: {fileID: 1336443471}
-  prefab: {fileID: 8849783260539592491, guid: bd55747b45e0e4ef999519a433ceea50, type: 3}
+  prefab: {fileID: 5174518339396670509, guid: 592c4651d54f0407b943f0ec6fbef26f, type: 3}
 --- !u!4 &586738788 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3511902614851802987, guid: 4880c81ee8f04406d886a5f6f2dc4767, type: 3}
@@ -1412,7 +1416,9 @@ PrefabInstance:
       objectReference: {fileID: 2137093097}
     - target: {fileID: 6329146642476796667, guid: 4880c81ee8f04406d886a5f6f2dc4767, type: 3}
       propertyPath: m_Text
-      value: Input
+      value: 'Input
+
+        (press E)'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2016,7 +2022,7 @@ Transform:
   m_GameObject: {fileID: 1457772478}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -99.62564, y: 0.03, z: -123.79562}
+  m_LocalPosition: {x: -99.62564, y: 0, z: -123.79562}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2144,7 +2150,7 @@ PrefabInstance:
     - target: {fileID: 7357133298860249380, guid: 4880c81ee8f04406d886a5f6f2dc4767, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+      objectReference: {fileID: 2100000, guid: cc26f864f2a9840b1b023b9a91a8dbc1, type: 2}
     - target: {fileID: 9155540808454925157, guid: 4880c81ee8f04406d886a5f6f2dc4767, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.125
@@ -3499,7 +3505,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6483737133600086177}
   m_Layer: 0
-  m_Name: Variable (1)
+  m_Name: Variable Watcher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
