@@ -13,7 +13,7 @@ namespace ColliderEventSystem
     public sealed class ColliderEvent : ColliderEventBase
     {
         [Tooltip("Only objects with one of these tags can trigger this zone. Leave empty to allow anything with a Collider.")]
-        public string[] requiredTags = new string[0];
+        public string[] requiredTags = System.Array.Empty<string>();
 
         [Tooltip("The colour of the zone gizmo in the editor.")]
         public Color debugColor = new Color(1f, 0.4f, 0f, 0.3f);
@@ -91,7 +91,8 @@ namespace ColliderEventSystem
                 case SphereCollider sphere:
                     // Mirrors Unity's own physics behaviour for SphereCollider: non-uniform scale is
                     // ignored, only the largest axis is used.
-                    float sphereScale = Mathf.Max(transform.lossyScale.x, transform.lossyScale.y, transform.lossyScale.z);
+                    Vector3 sphereLossyScale = transform.lossyScale;
+                    float sphereScale = Mathf.Max(Mathf.Max(sphereLossyScale.x, sphereLossyScale.y), sphereLossyScale.z);
                     Gizmos.DrawSphere(transform.TransformPoint(sphere.center), sphere.radius * sphereScale * GizmoInflation);
                     break;
 

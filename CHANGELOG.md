@@ -3,6 +3,14 @@
 All notable changes to this package are documented here. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.1.7]
+
+### Fixed
+
+- `ColliderEvent`: avoided two small GC allocations found by Project Auditor - the 3-argument
+  `Mathf.Max` call in the Sphere gizmo path (which allocates a `float[]` via its `params` overload) and
+  `new string[0]` for the default Required Tags value (now `Array.Empty<string>()`).
+
 ## [0.1.6]
 
 ### Fixed
