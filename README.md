@@ -89,7 +89,7 @@ A few things that aren't bugs, but are easy to trip over:
 ## Credits
 
 Initially built starting from the concept behind Alexander Scott's
-[Enhanced Trigger Box](https://github.com/alexanderscott/Enhanced-Trigger-Box) - a trigger volume driven by
+[Enhanced Trigger Box](https://github.com/alexander-scott/Enhanced-Trigger-Box) - a trigger volume driven by
 composable conditions and actions. This package has since diverged into its own architecture (Conditions,
 Actions, and Variables as separate composable components, a Condition Watcher for non-physical triggers,
 custom Inspector tooling, etc.), but the original idea is worth crediting.
