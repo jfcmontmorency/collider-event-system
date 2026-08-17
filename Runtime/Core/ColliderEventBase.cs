@@ -33,7 +33,7 @@ namespace ColliderEventSystem
         public bool showHintMaterial;
 
         [Tooltip("Used when Show Hint Material is on. Entering Objects highlights whatever triggered the zone; Specific Object always highlights the same Renderer below.")]
-        public TargetMode hintTargetMode = TargetMode.EnteringObjects;
+        public TargetMode hintTargetMode = TargetMode.SpecificObject;
 
         [Tooltip("Used when Hint Target Mode is Specific Object.")]
         public Renderer hintRenderer;

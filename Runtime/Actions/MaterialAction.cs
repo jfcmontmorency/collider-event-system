@@ -15,7 +15,7 @@ namespace ColliderEventSystem
             RestoreOriginal,
         }
 
-        public TargetMode targetMode = TargetMode.EnteringObjects;
+        public TargetMode targetMode = TargetMode.SpecificObject;
 
         [Tooltip("The Renderer to modify. Used when Target Mode is Specific Object.")]
         public Renderer targetRenderer;

@@ -3,6 +3,15 @@
 All notable changes to this package are documented here. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.4.1]
+
+### Changed
+
+- Every Target Mode field (Transform, Material, GameObject, Rigidbody, Animation, Instantiate Prefab
+  Actions, and Hint Material) now defaults to **Specific Object** instead of Entering Objects, for
+  consistency across the package. Only affects newly added components - existing ones keep whatever
+  they're already set to.
+
 ## [0.4.0]
 
 ### Changed

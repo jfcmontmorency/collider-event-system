@@ -9,7 +9,7 @@ namespace ColliderEventSystem
     /// </summary>
     public sealed class RigidbodyAction : ActionBase
     {
-        public TargetMode targetMode = TargetMode.EnteringObjects;
+        public TargetMode targetMode = TargetMode.SpecificObject;
 
         [Tooltip("The Rigidbody to modify. Used when Target Mode is Specific Object.")]
         public Rigidbody target;

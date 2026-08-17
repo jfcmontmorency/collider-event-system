@@ -14,7 +14,7 @@ namespace ColliderEventSystem
             Destroy,
         }
 
-        public TargetMode targetMode = TargetMode.EnteringObjects;
+        public TargetMode targetMode = TargetMode.SpecificObject;
 
         [Tooltip("The GameObject to modify. Used when Target Mode is Specific Object.")]
         public GameObject target;

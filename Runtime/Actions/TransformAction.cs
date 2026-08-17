@@ -15,7 +15,7 @@ namespace ColliderEventSystem
             ReferenceTransform,
         }
 
-        public TargetMode targetMode = TargetMode.EnteringObjects;
+        public TargetMode targetMode = TargetMode.SpecificObject;
 
         [Tooltip("Used when Target Mode is Specific Object. Leave empty to use this GameObject's own Transform.")]
         public Transform target;

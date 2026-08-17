@@ -1,6 +1,6 @@
 {
   "name": "com.jfcartier.collider-event-system",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "displayName": "Collider Event System",
   "description": "Component-based collider/condition-driven event system: attach ordered Condition and Action components to a GameObject to build zone triggers (ColliderEvent) or continuously-evaluated watchers (ConditionWatcher).",
   "unity": "6000.4",

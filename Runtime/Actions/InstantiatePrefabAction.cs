@@ -7,7 +7,7 @@ namespace ColliderEventSystem
     /// </summary>
     public sealed class InstantiatePrefabAction : ActionBase
     {
-        public TargetMode targetMode = TargetMode.EnteringObjects;
+        public TargetMode targetMode = TargetMode.SpecificObject;
 
         [Tooltip("Where to spawn it. Used when Target Mode is Specific Object. Leave empty to spawn at this GameObject's position/rotation.")]
         public Transform destination;

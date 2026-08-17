@@ -9,7 +9,7 @@ namespace ColliderEventSystem
     /// </summary>
     public sealed class AnimationAction : ActionBase
     {
-        public TargetMode targetMode = TargetMode.EnteringObjects;
+        public TargetMode targetMode = TargetMode.SpecificObject;
 
         [Tooltip("The Animator to control. Used when Target Mode is Specific Object.")]
         public Animator target;
