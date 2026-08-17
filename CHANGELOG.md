@@ -3,6 +3,16 @@
 All notable changes to this package are documented here. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.1.8]
+
+### Fixed
+
+- `Transform Action`'s **Additive** rotation mode no longer accumulates via Euler angle arithmetic
+  (`start + delta`, then writing back through `eulerAngles`). Since `eulerAngles` isn't a stable
+  round-trip representation once more than one axis is involved, this could silently drift or even
+  cancel out from one run to the next (e.g. alternating +10/-10 instead of accumulating). Now composes
+  `Quaternion`s directly and animates with `Slerp` instead of a per-axis `Lerp` on Euler angles.
+
 ## [0.1.7]
 
 ### Fixed

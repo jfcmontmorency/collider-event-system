@@ -138,14 +138,14 @@ namespace ColliderEventSystem
         private struct StartState
         {
             public Vector3 Position;
-            public Vector3 Rotation;
+            public Quaternion Rotation;
             public Vector3 Scale;
         }
 
         private struct EndState
         {
             public Vector3 Position;
-            public Vector3 Rotation;
+            public Quaternion Rotation;
             public Vector3 Scale;
         }
 
@@ -154,7 +154,7 @@ namespace ColliderEventSystem
             return new StartState
             {
                 Position = space == Space.World ? t.position : t.localPosition,
-                Rotation = space == Space.World ? t.eulerAngles : t.localEulerAngles,
+                Rotation = space == Space.World ? t.rotation : t.localRotation,
                 Scale = t.localScale,
             };
         }
@@ -164,20 +164,26 @@ namespace ColliderEventSystem
             // A null Value Reference (Reference Transform selected but nothing assigned) falls back to
             // the current value - i.e. that property doesn't move, the same as leaving its toggle off.
             Vector3 rawPosition = position;
-            Vector3 rawRotation = rotation;
+            Quaternion rawRotation = Quaternion.Euler(rotation);
             Vector3 rawScale = scale;
 
             if (valueSource == ValueSource.ReferenceTransform)
             {
                 rawPosition = valueReference != null ? (space == Space.World ? valueReference.position : valueReference.localPosition) : start.Position;
-                rawRotation = valueReference != null ? (space == Space.World ? valueReference.eulerAngles : valueReference.localEulerAngles) : start.Rotation;
+                rawRotation = valueReference != null ? (space == Space.World ? valueReference.rotation : valueReference.localRotation) : start.Rotation;
                 rawScale = valueReference != null ? valueReference.localScale : start.Scale;
             }
 
             return new EndState
             {
                 Position = valueMode == ValueMode.Additive ? start.Position + rawPosition : rawPosition,
-                Rotation = valueMode == ValueMode.Additive ? start.Rotation + rawRotation : rawRotation,
+                // Additive composes quaternions instead of adding Euler angles component-wise - eulerAngles
+                // isn't a stable round-trip representation (the same rotation can decompose to different
+                // Euler triples once more than one axis is involved), so accumulating via Vector3 addition
+                // can silently drift or even cancel out from one run to the next.
+                Rotation = valueMode == ValueMode.Additive
+                    ? (space == Space.World ? rawRotation * start.Rotation : start.Rotation * rawRotation)
+                    : rawRotation,
                 Scale = valueMode == ValueMode.Additive ? start.Scale + rawScale : rawScale,
             };
         }
@@ -210,9 +216,9 @@ namespace ColliderEventSystem
 
             if (modifyRotation)
             {
-                Vector3 newRotation = Vector3.Lerp(start.Rotation, end.Rotation, progress);
-                if (space == Space.World) t.eulerAngles = newRotation;
-                else t.localEulerAngles = newRotation;
+                Quaternion newRotation = Quaternion.Slerp(start.Rotation, end.Rotation, progress);
+                if (space == Space.World) t.rotation = newRotation;
+                else t.localRotation = newRotation;
             }
 
             if (modifyScale)
