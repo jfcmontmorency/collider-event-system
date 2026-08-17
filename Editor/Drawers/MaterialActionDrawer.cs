@@ -8,12 +8,11 @@ namespace ColliderEventSystem.Editor.Drawers
     /// <summary>
     /// Groups fields under "Target" and "Effect" section labels. Target Mode only shows when the owner
     /// has a ColliderEvent (Condition Watcher has no entering object, so it's locked to Specific Object).
-    /// Target Renderer shows whenever Specific Object applies.
+    /// Target Renderer shows whenever Specific Object applies. New Material only shows when Mode is Apply
+    /// - Restore Original needs nothing else, it puts back whatever Apply last remembered.
     /// </summary>
     public static class MaterialActionDrawer
     {
-        private static readonly string[] SkipNames = { "targetMode", "targetRenderer" };
-
         public static void Draw(Rect rect, SerializedObject so)
         {
             Layout(rect, so, true);
@@ -26,12 +25,9 @@ namespace ColliderEventSystem.Editor.Drawers
 
         private static float Layout(Rect rect, SerializedObject so, bool draw)
         {
-            float lineHeight = EditorGUIUtility.singleLineHeight;
-            float y = rect.y;
+            var cursor = new RectLayoutCursor(rect);
 
-            if (draw) EditorGUI.LabelField(new Rect(rect.x, y, rect.width, lineHeight), "Target", EditorStyles.boldLabel);
-            y += lineHeight + 2f;
-
+            DrawSectionLabel(cursor.NextLine(), "Target", draw);
             EditorGUI.indentLevel++;
 
             SerializedProperty targetModeProp = so.FindProperty("targetMode");
@@ -39,8 +35,7 @@ namespace ColliderEventSystem.Editor.Drawers
 
             if (supportsEnteringObjects)
             {
-                if (draw) EditorGUI.PropertyField(new Rect(rect.x, y, rect.width, lineHeight), targetModeProp);
-                y += lineHeight + 2f;
+                DrawField(cursor.NextField(targetModeProp), targetModeProp, draw);
             }
             else
             {
@@ -50,26 +45,36 @@ namespace ColliderEventSystem.Editor.Drawers
             if (!supportsEnteringObjects || (TargetMode)targetModeProp.enumValueIndex == TargetMode.SpecificObject)
             {
                 SerializedProperty targetRendererProp = so.FindProperty("targetRenderer");
-                if (draw) EditorGUI.PropertyField(new Rect(rect.x, y, rect.width, lineHeight), targetRendererProp);
-                y += lineHeight + 2f;
+                DrawField(cursor.NextField(targetRendererProp), targetRendererProp, draw);
             }
 
             EditorGUI.indentLevel--;
-            y += 6f;
-
-            if (draw) EditorGUI.LabelField(new Rect(rect.x, y, rect.width, lineHeight), "Effect", EditorStyles.boldLabel);
-            y += lineHeight + 2f;
-
+            cursor.Spacer();
+            DrawSectionLabel(cursor.NextLine(), "Effect", draw);
             EditorGUI.indentLevel++;
 
-            Rect remainingRect = new Rect(rect.x, y, rect.width, rect.height);
-            y += draw
-                ? ConditionActionListDrawer.DrawRemainingFields(remainingRect, so, SkipNames)
-                : ConditionActionListDrawer.GetRemainingFieldsHeight(so, SkipNames);
+            SerializedProperty modeProp = so.FindProperty("mode");
+            DrawField(cursor.NextField(modeProp), modeProp, draw);
+
+            if ((MaterialAction.Mode)modeProp.enumValueIndex == MaterialAction.Mode.Apply)
+            {
+                SerializedProperty newMaterialProp = so.FindProperty("newMaterial");
+                DrawField(cursor.NextField(newMaterialProp), newMaterialProp, draw);
+            }
 
             EditorGUI.indentLevel--;
 
-            return y - rect.y;
+            return cursor.ConsumedHeight;
+        }
+
+        private static void DrawField(Rect rect, SerializedProperty property, bool draw)
+        {
+            if (draw) EditorGUI.PropertyField(rect, property);
+        }
+
+        private static void DrawSectionLabel(Rect rect, string text, bool draw)
+        {
+            if (draw) EditorGUI.LabelField(rect, text, EditorStyles.boldLabel);
         }
     }
 }

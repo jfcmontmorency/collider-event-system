@@ -3,6 +3,16 @@
 All notable changes to this package are documented here. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.2.0]
+
+### Added
+
+- `Material Action` has a new **Mode**: **Apply** (previous behaviour) or **Restore Original**. Apply now
+  remembers the Renderer's materials the first time it runs; Restore Original puts them back without
+  needing a second, hand-picked "original" material - useful for a temporary highlight while a zone's
+  Conditions are still pending (e.g. Action = Apply a highlight material on enter, Exit Action = Restore
+  Original), all on a Collider Event with no Conditions of its own so it fires immediately.
+
 ## [0.1.10]
 
 ### Fixed
