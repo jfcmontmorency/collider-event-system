@@ -1,5 +1,4 @@
 using ColliderEventSystem;
-using ColliderEventSystem.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -44,8 +43,6 @@ namespace ColliderEventSystem.Editor.Drawers
 
             SerializedProperty valueProp = so.FindProperty("value");
             DrawField(cursor.NextField(valueProp), valueProp, draw);
-
-            ConditionHintDrawer.Layout(ref cursor, so, draw);
 
             return cursor.ConsumedHeight;
         }

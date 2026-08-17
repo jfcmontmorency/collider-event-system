@@ -35,7 +35,6 @@ namespace ColliderEventSystem.Editor
             Register(typeof(RigidbodyAction), RigidbodyActionDrawer.Draw, RigidbodyActionDrawer.GetHeight);
             Register(typeof(VariableAction), VariableActionDrawer.Draw, VariableActionDrawer.GetHeight);
             Register(typeof(TransformAction), TransformActionDrawer.Draw, TransformActionDrawer.GetHeight);
-            Register(typeof(DistanceCondition), DistanceConditionDrawer.Draw, DistanceConditionDrawer.GetHeight);
             Register(typeof(InputCondition), InputConditionDrawer.Draw, InputConditionDrawer.GetHeight);
             Register(typeof(LookingAtCondition), LookingAtConditionDrawer.Draw, LookingAtConditionDrawer.GetHeight);
             Register(typeof(InstantiatePrefabAction), InstantiatePrefabActionDrawer.Draw, InstantiatePrefabActionDrawer.GetHeight);

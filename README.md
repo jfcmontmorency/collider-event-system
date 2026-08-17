@@ -25,11 +25,6 @@ Looking At, Input, Variable, Distance, Rotation.
 Each condition after the first has an **And/Or** selector relating it to the one above it, read strictly
 top to bottom (e.g. "A Or B And C" reads as "(A Or B) And C").
 
-Every Condition also has an optional **Hint Material**: a material applied to a target while the Condition
-is false, and automatically restored once it becomes true (or once the zone is left before it does) -
-useful as a hint that an interaction is available, e.g. an Input Condition ("press E") highlighting the
-object you can interact with until you actually press the key.
-
 ## Actions
 
 Animation, Audio, Scene, GameObject, Material, Rigidbody, Transform, Variable, Invoke Events, Instantiate
@@ -51,6 +46,11 @@ independent value like HP without writing a script for it.
 - **Hold Time** - how many seconds the Conditions must stay true, without interruption, before Actions run.
 - **After Trigger** - what happens once Actions have run (deactivate, destroy, do nothing and reset, or
   wait and run Exit Actions once the Conditions/zone go inactive again).
+- **Hint Material** - optional. A material applied to a target while the Conditions above aren't all met
+  yet, and automatically restored once they are (or once the zone is left before they are) - useful as a
+  hint that an interaction is available, e.g. highlighting the object you can press E on until you
+  actually press it. Reflects the combined Condition list result (respecting And/Or), not any single
+  Condition on its own.
 
 ## Prefabs
 

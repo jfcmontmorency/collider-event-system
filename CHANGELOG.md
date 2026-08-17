@@ -3,6 +3,16 @@
 All notable changes to this package are documented here. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.4.0]
+
+### Changed
+
+- **Hint Material moved from Condition to Collider Event / Condition Watcher.** It reflects the combined
+  Condition list result (respecting each Condition's And/Or), not any single Condition's own value - with
+  more than one Condition, a per-Condition Hint Material would have shown/hidden based on that Condition
+  alone, out of step with when Actions actually run. Behaviour is otherwise identical: applied while the
+  Conditions aren't all met, restored once they are or once the zone is left first.
+
 ## [0.3.0]
 
 ### Added

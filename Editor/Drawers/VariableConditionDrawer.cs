@@ -62,8 +62,6 @@ namespace ColliderEventSystem.Editor.Drawers
                     break;
             }
 
-            ConditionHintDrawer.Layout(ref cursor, so, draw);
-
             return cursor.ConsumedHeight;
         }
 

@@ -1,5 +1,4 @@
 using ColliderEventSystem;
-using ColliderEventSystem.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -46,8 +45,6 @@ namespace ColliderEventSystem.Editor.Drawers
                 Rect maskRect = cursor.NextField(maskProp);
                 if (draw) EditorGUI.PropertyField(maskRect, maskProp, new GUIContent("Obstacle Layers"));
             }
-
-            ConditionHintDrawer.Layout(ref cursor, so, draw);
 
             return cursor.ConsumedHeight;
         }

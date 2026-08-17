@@ -29,6 +29,20 @@ namespace ColliderEventSystem
         [Tooltip("If true, logs to the console when this fires and when it exits.")]
         public bool debugLogging = true;
 
+        [Tooltip("Optional. Applies a material to a target while the Conditions above aren't all met yet, and restores the original once they are (or once checking stops before they are) - a hint that an interaction is available.")]
+        public bool showHintMaterial;
+
+        [Tooltip("Used when Show Hint Material is on. Entering Objects highlights whatever triggered the zone; Specific Object always highlights the same Renderer below.")]
+        public TargetMode hintTargetMode = TargetMode.EnteringObjects;
+
+        [Tooltip("Used when Hint Target Mode is Specific Object.")]
+        public Renderer hintRenderer;
+
+        [Tooltip("Applied to every material slot on the target Renderer while the Conditions aren't all met.")]
+        public Material hintMaterial;
+
+        private Renderer m_ActiveHintRenderer;
+
         /// <summary>
         /// The GameObject that triggered this, when relevant. Set by the owning subclass. Passed to
         /// Conditions/Actions whose RequiresCollisionObjectData is true.
@@ -91,7 +105,10 @@ namespace ColliderEventSystem
                 return;
             }
 
-            if (EvaluateConditions())
+            bool conditionsMet = EvaluateConditions();
+            UpdateHintMaterial(conditionsMet);
+
+            if (conditionsMet)
             {
                 m_HoldTimer += Time.deltaTime;
 
@@ -115,20 +132,15 @@ namespace ColliderEventSystem
         }
 
         /// <summary>
-        /// Stops evaluating the condition list and resets the hold timer. Also resets every Condition's
-        /// own state (e.g. an active Hint Material) - Actions only get that treatment via
-        /// ResetAfterFiring(), because they never run before all Conditions are met, but a Condition can
-        /// have left visible side effects behind (its Hint Material) even though nothing ever fired.
+        /// Stops evaluating the condition list and resets the hold timer. Also restores the Hint Material
+        /// if one is currently showing - Update() won't run again to notice the Conditions changed, so
+        /// leaving the zone before they were ever met would otherwise leave it stuck on.
         /// </summary>
         protected void StopChecking()
         {
             Checking = false;
             m_HoldTimer = 0f;
-
-            for (int i = 0; i < conditions.Count; i++)
-            {
-                if (conditions[i]) conditions[i].ResetState();
-            }
+            RevertHintMaterial();
         }
 
         /// <summary>
@@ -178,6 +190,34 @@ namespace ColliderEventSystem
             }
 
             return result;
+        }
+
+        private void UpdateHintMaterial(bool conditionsMet)
+        {
+            if (!showHintMaterial) return;
+
+            Renderer renderer = conditionsMet || hintMaterial == null ? null : ResolveHintRenderer();
+            if (renderer == m_ActiveHintRenderer) return;
+
+            if (m_ActiveHintRenderer != null) RendererMaterialOverride.Restore(m_ActiveHintRenderer);
+            if (renderer != null) RendererMaterialOverride.Apply(renderer, hintMaterial);
+
+            m_ActiveHintRenderer = renderer;
+        }
+
+        private Renderer ResolveHintRenderer()
+        {
+            return hintTargetMode == TargetMode.EnteringObjects
+                ? (collidingObject != null ? collidingObject.GetComponent<Renderer>() : null)
+                : hintRenderer;
+        }
+
+        private void RevertHintMaterial()
+        {
+            if (m_ActiveHintRenderer == null) return;
+
+            RendererMaterialOverride.Restore(m_ActiveHintRenderer);
+            m_ActiveHintRenderer = null;
         }
 
         private IEnumerator RunActionsCoroutine()

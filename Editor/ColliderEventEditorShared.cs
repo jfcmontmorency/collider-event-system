@@ -22,6 +22,39 @@ namespace ColliderEventSystem.Editor
         }
 
         /// <summary>
+        /// Target Mode only shows when the owner is a Collider Event (Condition Watcher has no entering
+        /// object, so it's locked to Specific Object). Target/Material only show once Show Hint Material
+        /// is on.
+        /// </summary>
+        public static void DrawHintMaterial(SerializedObject so, SerializedProperty showHintMaterial, SerializedProperty hintTargetMode, SerializedProperty hintRenderer, SerializedProperty hintMaterial)
+        {
+            EditorGUILayout.PropertyField(showHintMaterial, new GUIContent("Hint Material"));
+            if (!showHintMaterial.boolValue) return;
+
+            EditorGUI.indentLevel++;
+
+            bool supportsEnteringObjects = TargetModeGui.SupportsEnteringObjects(so);
+
+            if (supportsEnteringObjects)
+            {
+                EditorGUILayout.PropertyField(hintTargetMode, new GUIContent("Target Mode"));
+            }
+            else
+            {
+                hintTargetMode.enumValueIndex = (int)TargetMode.SpecificObject;
+            }
+
+            if (!supportsEnteringObjects || (TargetMode)hintTargetMode.enumValueIndex == TargetMode.SpecificObject)
+            {
+                EditorGUILayout.PropertyField(hintRenderer, new GUIContent("Target"));
+            }
+
+            EditorGUILayout.PropertyField(hintMaterial, new GUIContent("Material"));
+
+            EditorGUI.indentLevel--;
+        }
+
+        /// <summary>
         /// Draws lists already built with ConditionActionListDrawer.Build() in the owning Editor's OnEnable().
         /// </summary>
         public static void DrawLists(ReorderableList conditionsList, ReorderableList actionsList, ReorderableList exitActionsList, SerializedProperty afterTrigger)
