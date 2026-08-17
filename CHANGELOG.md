@@ -3,6 +3,15 @@
 All notable changes to this package are documented here. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.1.10]
+
+### Fixed
+
+- Trigger prefabs (`Prefabs/Trigger Cube`, `Trigger Sphere`, `Trigger Capsule`) referenced Unity's built-in
+  default material (the Standard shader), which shows up pink on a URP project - now used a custom Shader
+  Graph material (`Materials/Trigger Zone`, targeting both Universal and Built-In) instead, so enabling the
+  Mesh Renderer for a visible zone works out of the box regardless of render pipeline.
+
 ## [0.1.9]
 
 ### Fixed
