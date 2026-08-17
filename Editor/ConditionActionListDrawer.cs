@@ -74,8 +74,15 @@ namespace ColliderEventSystem.Editor
             return GetRemainingFieldsHeight(elementSo);
         }
 
+        // ReorderableList draws its drag handle in a strip at the left edge of each element's rect
+        // without excluding it from the rect passed to drawElementCallback - inset our own content so it
+        // doesn't sit underneath the handle.
+        private const float LeftPadding = 14f;
+
         private static void DrawElement(Rect rect, SerializedProperty listProperty, int index, bool isConditionList)
         {
+            rect = new Rect(rect.x + LeftPadding, rect.y, rect.width - LeftPadding, rect.height);
+
             SerializedProperty elementProp = listProperty.GetArrayElementAtIndex(index);
             UnityEngine.Object element = elementProp.objectReferenceValue;
 

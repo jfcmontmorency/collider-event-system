@@ -3,6 +3,13 @@
 All notable changes to this package are documented here. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.1.9]
+
+### Fixed
+
+- Condition/Action list rows now have left padding so their content (foldout, fields) doesn't sit
+  underneath the ReorderableList's drag handle.
+
 ## [0.1.8]
 
 ### Fixed
