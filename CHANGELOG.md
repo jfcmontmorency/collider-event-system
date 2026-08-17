@@ -3,6 +3,16 @@
 All notable changes to this package are documented here. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.3.0]
+
+### Added
+
+- Every Condition now has an optional **Hint Material**: applied to a target while the Condition is
+  false, and automatically restored once it becomes true (or once the zone is left before it does) -
+  useful as a hint that an interaction is available (e.g. an Input Condition highlighting the object you
+  can press E on). Shares its apply/restore logic with Material Action's Restore Original mode, so the
+  two never disagree about what the "original" material was if they touch the same Renderer.
+
 ## [0.2.0]
 
 ### Added

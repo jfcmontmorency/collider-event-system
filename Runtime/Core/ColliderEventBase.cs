@@ -115,12 +115,20 @@ namespace ColliderEventSystem
         }
 
         /// <summary>
-        /// Stops evaluating the condition list and resets the hold timer.
+        /// Stops evaluating the condition list and resets the hold timer. Also resets every Condition's
+        /// own state (e.g. an active Hint Material) - Actions only get that treatment via
+        /// ResetAfterFiring(), because they never run before all Conditions are met, but a Condition can
+        /// have left visible side effects behind (its Hint Material) even though nothing ever fired.
         /// </summary>
         protected void StopChecking()
         {
             Checking = false;
             m_HoldTimer = 0f;
+
+            for (int i = 0; i < conditions.Count; i++)
+            {
+                if (conditions[i]) conditions[i].ResetState();
+            }
         }
 
         /// <summary>

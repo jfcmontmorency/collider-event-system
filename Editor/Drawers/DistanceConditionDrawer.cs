@@ -6,9 +6,10 @@ using UnityEngine;
 namespace ColliderEventSystem.Editor.Drawers
 {
     /// <summary>
-    /// Shows Relative To only when Space is Relative To Transform.
+    /// A flat field list (Distance Condition has no conditional fields of its own), plus the shared Hint
+    /// Material section every Condition type gets.
     /// </summary>
-    public static class RotationConditionDrawer
+    public static class DistanceConditionDrawer
     {
         public static void Draw(Rect rect, SerializedObject so)
         {
@@ -27,17 +28,8 @@ namespace ColliderEventSystem.Editor.Drawers
             SerializedProperty targetProp = so.FindProperty("target");
             DrawField(cursor.NextField(targetProp), targetProp, draw);
 
-            SerializedProperty spaceProp = so.FindProperty("space");
-            DrawField(cursor.NextField(spaceProp), spaceProp, draw);
-
-            if ((RotationCondition.RotationSpace)spaceProp.enumValueIndex == RotationCondition.RotationSpace.RelativeToTransform)
-            {
-                SerializedProperty relativeToProp = so.FindProperty("relativeTo");
-                DrawField(cursor.NextField(relativeToProp), relativeToProp, draw);
-            }
-
-            SerializedProperty axisProp = so.FindProperty("axis");
-            DrawField(cursor.NextField(axisProp), axisProp, draw);
+            SerializedProperty otherProp = so.FindProperty("other");
+            DrawField(cursor.NextField(otherProp), otherProp, draw);
 
             SerializedProperty operatorProp = so.FindProperty("operatorValue");
             DrawField(cursor.NextField(operatorProp), operatorProp, draw);

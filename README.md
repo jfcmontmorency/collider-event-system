@@ -25,6 +25,11 @@ Looking At, Input, Variable, Distance, Rotation.
 Each condition after the first has an **And/Or** selector relating it to the one above it, read strictly
 top to bottom (e.g. "A Or B And C" reads as "(A Or B) And C").
 
+Every Condition also has an optional **Hint Material**: a material applied to a target while the Condition
+is false, and automatically restored once it becomes true (or once the zone is left before it does) -
+useful as a hint that an interaction is available, e.g. an Input Condition ("press E") highlighting the
+object you can interact with until you actually press the key.
+
 ## Actions
 
 Animation, Audio, Scene, GameObject, Material, Rigidbody, Transform, Variable, Invoke Events, Instantiate

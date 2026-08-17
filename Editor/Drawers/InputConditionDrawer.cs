@@ -1,4 +1,5 @@
 using ColliderEventSystem;
+using ColliderEventSystem.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -42,6 +43,8 @@ namespace ColliderEventSystem.Editor.Drawers
             SerializedProperty triggerOnProp = so.FindProperty("triggerOn");
             Rect triggerOnRect = cursor.NextField(triggerOnProp);
             if (draw) EditorGUI.PropertyField(triggerOnRect, triggerOnProp, new GUIContent("Trigger On"));
+
+            ConditionHintDrawer.Layout(ref cursor, so, draw);
 
             return cursor.ConsumedHeight;
         }

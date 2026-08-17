@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ColliderEventSystem
@@ -28,21 +27,6 @@ namespace ColliderEventSystem
 
         public override bool RequiresCollisionObjectData => targetMode == TargetMode.EnteringObjects;
 
-        // Shared across every MaterialAction instance so an Apply on one (e.g. an Action) and a
-        // RestoreOriginal on a different one (e.g. its Exit Action) see the same cache.
-        private static readonly Dictionary<Renderer, Material[]> s_OriginalMaterials = new Dictionary<Renderer, Material[]>();
-
-#if UNITY_EDITOR
-        // Renderers are recreated (or destroyed) between Play sessions, so cached entries from a
-        // previous session are never valid to restore from - clear regardless of Fast Enter Play Mode /
-        // domain reload settings.
-        [UnityEditor.InitializeOnEnterPlayMode]
-        private static void ResetOriginalMaterialsCache()
-        {
-            s_OriginalMaterials.Clear();
-        }
-#endif
-
         public override void Execute()
         {
             Apply(targetRenderer);
@@ -59,27 +43,12 @@ namespace ColliderEventSystem
 
             if (mode == Mode.RestoreOriginal)
             {
-                if (s_OriginalMaterials.TryGetValue(renderer, out Material[] original))
-                {
-                    renderer.materials = original;
-                    s_OriginalMaterials.Remove(renderer);
-                }
-
-                return;
+                RendererMaterialOverride.Restore(renderer);
             }
-
-            if (newMaterial == null) return;
-
-            // Only remember the very first Apply - a second Apply before a RestoreOriginal (e.g. re-
-            // entering before the exit fired) must not overwrite the real original with the highlight.
-            if (!s_OriginalMaterials.ContainsKey(renderer))
+            else
             {
-                s_OriginalMaterials[renderer] = renderer.sharedMaterials;
+                RendererMaterialOverride.Apply(renderer, newMaterial);
             }
-
-            Material[] materials = new Material[renderer.sharedMaterials.Length];
-            for (int i = 0; i < materials.Length; i++) materials[i] = newMaterial;
-            renderer.materials = materials;
         }
     }
 }
