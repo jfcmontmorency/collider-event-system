@@ -3,6 +3,13 @@
 All notable changes to this package are documented here. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.4.2]
+
+### Changed
+
+- Demo sample updated to demonstrate Hint Material (new `Demo Hint` material, reusing the existing
+  cross-pipeline "Demo Transparent" Shader Graph).
+
 ## [0.4.1]
 
 ### Changed
