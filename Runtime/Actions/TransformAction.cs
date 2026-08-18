@@ -146,6 +146,14 @@ namespace ColliderEventSystem
         {
             public Vector3 Position;
             public Quaternion Rotation;
+
+            // Additive mode's raw Euler delta, kept around separately from Rotation above - Rotation is
+            // the composed endpoint quaternion (used to Slerp for Set mode), but a Slerp straight to it
+            // would collapse a full-turn Additive delta (e.g. 360 on one axis) to "no rotation", since
+            // that's indistinguishable from identity as a quaternion. Additive instead reconstructs the
+            // delta fresh each frame (see Apply), scaled by progress, so a full spin still animates.
+            public Vector3 RotationDelta;
+
             public Vector3 Scale;
         }
 
@@ -164,13 +172,15 @@ namespace ColliderEventSystem
             // A null Value Reference (Reference Transform selected but nothing assigned) falls back to
             // the current value - i.e. that property doesn't move, the same as leaving its toggle off.
             Vector3 rawPosition = position;
-            Quaternion rawRotation = Quaternion.Euler(rotation);
+            Vector3 rawRotationDelta = rotation;
+            Quaternion rawRotationQuat = Quaternion.Euler(rotation);
             Vector3 rawScale = scale;
 
             if (valueSource == ValueSource.ReferenceTransform)
             {
                 rawPosition = valueReference != null ? (space == Space.World ? valueReference.position : valueReference.localPosition) : start.Position;
-                rawRotation = valueReference != null ? (space == Space.World ? valueReference.rotation : valueReference.localRotation) : start.Rotation;
+                rawRotationDelta = valueReference != null ? (space == Space.World ? valueReference.eulerAngles : valueReference.localEulerAngles) : Vector3.zero;
+                rawRotationQuat = valueReference != null ? (space == Space.World ? valueReference.rotation : valueReference.localRotation) : start.Rotation;
                 rawScale = valueReference != null ? valueReference.localScale : start.Scale;
             }
 
@@ -182,8 +192,9 @@ namespace ColliderEventSystem
                 // Euler triples once more than one axis is involved), so accumulating via Vector3 addition
                 // can silently drift or even cancel out from one run to the next.
                 Rotation = valueMode == ValueMode.Additive
-                    ? (space == Space.World ? rawRotation * start.Rotation : start.Rotation * rawRotation)
-                    : rawRotation,
+                    ? (space == Space.World ? rawRotationQuat * start.Rotation : start.Rotation * rawRotationQuat)
+                    : rawRotationQuat,
+                RotationDelta = rawRotationDelta,
                 Scale = valueMode == ValueMode.Additive ? start.Scale + rawScale : rawScale,
             };
         }
@@ -216,7 +227,22 @@ namespace ColliderEventSystem
 
             if (modifyRotation)
             {
-                Quaternion newRotation = Quaternion.Slerp(start.Rotation, end.Rotation, progress);
+                Quaternion newRotation;
+
+                if (valueMode == ValueMode.Additive)
+                {
+                    // Reconstructed from the raw delta at this exact progress, rather than Slerped toward
+                    // a fixed endpoint quaternion - a full-turn delta (e.g. 360 on one axis) is otherwise
+                    // indistinguishable from no rotation at all once converted to a quaternion, and would
+                    // never visibly move.
+                    Quaternion progressDelta = Quaternion.Euler(end.RotationDelta * progress);
+                    newRotation = space == Space.World ? progressDelta * start.Rotation : start.Rotation * progressDelta;
+                }
+                else
+                {
+                    newRotation = Quaternion.Slerp(start.Rotation, end.Rotation, progress);
+                }
+
                 if (space == Space.World) t.rotation = newRotation;
                 else t.localRotation = newRotation;
             }

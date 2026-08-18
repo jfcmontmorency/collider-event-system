@@ -3,6 +3,16 @@
 All notable changes to this package are documented here. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.4.3]
+
+### Fixed
+
+- `Transform Action`'s Additive rotation could produce no visible motion at all when the configured delta
+  was a multiple of 360 on one axis (e.g. a "spin 360" effect) - `Quaternion.Euler(0, 0, 360)` is the same
+  orientation as no rotation at all, so Slerping straight to it (as 0.1.8's fix for Additive drift did)
+  never moved. Additive now reconstructs the rotation from the raw delta at each frame's progress instead
+  of Slerping toward a fixed endpoint, so a full turn (or several) animates as an actual visible spin.
+
 ## [0.4.2]
 
 ### Changed
