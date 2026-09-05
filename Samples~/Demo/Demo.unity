@@ -1018,37 +1018,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3511902614851802987, guid: 4880c81ee8f04406d886a5f6f2dc4767, type: 3}
   m_PrefabInstance: {fileID: 2114860139}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &590744835
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 590744836}
-  m_Layer: 0
-  m_Name: 000
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &590744836
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 590744835}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &610005080
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1960,7 +1929,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6187557617359753160, guid: 4880c81ee8f04406d886a5f6f2dc4767, type: 3}
       propertyPath: afterTrigger
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6187557617359753160, guid: 4880c81ee8f04406d886a5f6f2dc4767, type: 3}
       propertyPath: debugColor.a
@@ -3950,7 +3919,7 @@ Transform:
   m_GameObject: {fileID: 6173857312420322933}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
-  m_LocalPosition: {x: -10.01, y: 0, z: -15.73}
+  m_LocalPosition: {x: -9.96, y: 0, z: -16.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4372,4 +4341,3 @@ SceneRoots:
   - {fileID: 1324099449}
   - {fileID: 1706779782}
   - {fileID: 3511902613711249980}
-  - {fileID: 590744836}

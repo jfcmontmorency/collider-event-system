@@ -3,6 +3,14 @@
 All notable changes to this package are documented here. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.4.4]
+
+### Fixed
+
+- Demo sample's `Material` trigger was set to `ExecuteExitActions` instead of `Destroy` like every other
+  trigger in the scene, so entering its zone didn't make it disappear the way the others do. Now uses
+  `Destroy`, for consistency across the Demo.
+
 ## [0.4.3]
 
 ### Fixed
