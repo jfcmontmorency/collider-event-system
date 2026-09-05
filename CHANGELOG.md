@@ -3,6 +3,25 @@
 All notable changes to this package are documented here. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.4.5]
+
+### Added
+
+- Offline PDF documentation (`Documentation/`), covering installation, every Condition and Action,
+  Variables, and known gotchas - required for Asset Store submission.
+
+### Changed
+
+- Quick Start now leads with dragging one of the ready-made trigger prefabs into the scene instead of
+  building a trigger from scratch; the manual setup (Collider + Is Trigger + Collider Event) is now the
+  secondary path, for adding a trigger to an existing GameObject.
+
+### Fixed
+
+- `ColliderEvent`'s capsule gizmo mesh cache is now a per-instance field instead of a shared static one,
+  so it no longer needs an explicit Play Mode reset. No behaviour change - purely satisfies static-analysis
+  tooling (e.g. the Asset Store Validator) that flags any mutable static field regardless of scope.
+
 ## [0.4.4]
 
 ### Fixed

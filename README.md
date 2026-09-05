@@ -13,10 +13,14 @@ condition watchers, without writing code.
 
 ## Quick start
 
-1. Add a Collider (e.g. Box Collider) to a GameObject, tick "Is Trigger", then add **Collider Event**.
+1. Drag one of the ready-made prefabs (`Trigger Cube`, `Trigger Sphere`, or `Trigger Capsule` - in
+   this package's `Prefabs` folder) into your scene.
 2. Under Conditions, click "Add Condition" and pick one (e.g. Distance).
 3. Under Actions, click "Add Action" and pick one (e.g. Invoke Events).
 4. Enter Play Mode and walk into the zone.
+
+To add a trigger to a GameObject of your own instead: add a Collider (e.g. Box Collider), tick "Is
+Trigger", then add **Collider Event** yourself.
 
 ## Conditions
 
@@ -54,9 +58,9 @@ independent value like HP without writing a script for it.
 
 ## Prefabs
 
-`Prefabs/` has ready-made trigger zones (Cube, Sphere, Capsule) - each a Collider set to "Is Trigger" with a
-Collider Event already attached, so you can skip the manual setup in Quick Start above and start adding
-Conditions/Actions right away.
+`Prefabs/` has ready-made trigger zones (Trigger Cube, Trigger Sphere, Trigger Capsule) - each a Collider
+set to "Is Trigger" with a Collider Event already attached, ready to drag into a scene as shown in Quick
+start.
 
 ## Sample
 

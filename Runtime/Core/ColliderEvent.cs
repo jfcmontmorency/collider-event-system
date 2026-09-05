@@ -112,30 +112,18 @@ namespace ColliderEventSystem
             }
         }
 
-        private static Mesh s_CapsuleMesh;
+        private Mesh m_CapsuleMesh;
         private const float CapsulePrimitiveHeight = 2f;
         private const float CapsulePrimitiveRadius = 0.5f;
 
-#if UNITY_EDITOR
-        // With Fast Enter Play Mode / domain reload disabled, static fields survive across Play sessions -
-        // this explicitly clears the cache on every Play Mode entry regardless, so it can never carry a
-        // stale reference. The mesh itself never depends on Play Mode state; this exists to satisfy that
-        // guarantee up front rather than rely on it happening to still be valid.
-        [UnityEditor.InitializeOnEnterPlayMode]
-        private static void ResetCapsuleMeshCache()
-        {
-            s_CapsuleMesh = null;
-        }
-#endif
-
         private void DrawCapsuleGizmo(CapsuleCollider capsule)
         {
-            if (s_CapsuleMesh == null)
+            if (m_CapsuleMesh == null)
             {
                 // Resources.GetBuiltinResource's mesh names are undocumented/internal and have drifted
                 // between Unity versions, so grab the primitive's mesh the reliable way instead.
                 GameObject temp = GameObject.CreatePrimitive(PrimitiveType.Capsule);
-                s_CapsuleMesh = temp.GetComponent<MeshFilter>().sharedMesh;
+                m_CapsuleMesh = temp.GetComponent<MeshFilter>().sharedMesh;
                 DestroyImmediate(temp);
             }
 
@@ -167,7 +155,7 @@ namespace ColliderEventSystem
             float height = Mathf.Max(capsule.height * heightScale, radius * 2f) * GizmoInflation;
 
             Vector3 meshScale = new Vector3(radius / CapsulePrimitiveRadius, height / CapsulePrimitiveHeight, radius / CapsulePrimitiveRadius);
-            Gizmos.DrawMesh(s_CapsuleMesh, transform.TransformPoint(capsule.center), transform.rotation * axisRotation, meshScale);
+            Gizmos.DrawMesh(m_CapsuleMesh, transform.TransformPoint(capsule.center), transform.rotation * axisRotation, meshScale);
         }
     }
 }
