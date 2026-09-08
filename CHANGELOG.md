@@ -3,6 +3,16 @@
 All notable changes to this package are documented here. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.4.6]
+
+### Fixed
+
+- A Condition/Action's `HideInInspector` flag (which keeps it from also drawing as its own raw
+  component block, since it's always shown inline in the Conditions/Actions list instead) could get
+  silently dropped by certain Prefab operations, making it reappear as a duplicate "(Script)" block
+  underneath the list. The flag is now reapplied automatically whenever the Inspector is opened, so
+  the duplicate block can no longer stick around.
+
 ## [0.4.5]
 
 ### Added

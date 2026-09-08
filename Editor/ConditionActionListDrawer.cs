@@ -28,6 +28,8 @@ namespace ColliderEventSystem.Editor
         {
             bool isConditionList = baseType == typeof(ConditionBase);
 
+            ReapplyHideFlags(listProperty);
+
             var list = new ReorderableList(listProperty.serializedObject, listProperty, true, true, true, true);
 
             list.drawHeaderCallback = rect => EditorGUI.LabelField(rect, listProperty.displayName);
@@ -37,6 +39,25 @@ namespace ColliderEventSystem.Editor
             list.onRemoveCallback = reorderableList => RemoveElement(listProperty, reorderableList.index);
 
             return list;
+        }
+
+        /// <summary>
+        /// AddElement() sets HideFlags.HideInInspector once, when a Condition/Action is first added, so it
+        /// only ever shows up via this drawer's own inline UI - never as its own "(Script)" block. Some
+        /// Prefab operations (apply/revert overrides, prefab creation from an object that already has
+        /// hidden components) can silently drop that flag on the resulting instance. Reapply it here, on
+        /// every Editor.OnEnable, so a stray duplicate block can't stick around.
+        /// </summary>
+        private static void ReapplyHideFlags(SerializedProperty listProperty)
+        {
+            for (int i = 0; i < listProperty.arraySize; i++)
+            {
+                UnityEngine.Object element = listProperty.GetArrayElementAtIndex(i).objectReferenceValue;
+                if (element == null || element.hideFlags == HideFlags.HideInInspector) continue;
+
+                element.hideFlags = HideFlags.HideInInspector;
+                EditorUtility.SetDirty(element);
+            }
         }
 
         private static float GetElementHeight(SerializedProperty listProperty, int index, bool isConditionList)
