@@ -3,6 +3,16 @@
 All notable changes to this package are documented here. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.4.7]
+
+### Fixed
+
+- `Transform Action` only suspended a `Rigidbody` while moving a target, not a `CharacterController` -
+  a `CharacterController` left enabled can silently reject or immediately undo a direct position/rotation
+  change, making the Action appear to do nothing on a target like a Third Person Controller's capsule.
+  It's now disabled for the duration of the move (instant or animated) and re-enabled once it finishes,
+  matching how a Rigidbody is already handled.
+
 ## [0.4.6]
 
 ### Fixed

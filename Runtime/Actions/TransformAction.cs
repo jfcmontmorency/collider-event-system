@@ -41,7 +41,7 @@ namespace ColliderEventSystem
         [Tooltip("Applies to Position and Rotation. Scale is always Local - there's no reliable way to set world scale directly.")]
         public Space space = Space.World;
 
-        [Tooltip("If the target has a Rigidbody, makes it kinematic while this runs so physics doesn't fight the scripted move. Note this cancels its momentum, not pauses it - a kinematic Rigidbody's velocity reads as zero, so once this restores it to non-kinematic afterward, it resumes at rest (falling fresh from the new position) rather than continuing whatever motion it had before.")]
+        [Tooltip("If the target has a Rigidbody, makes it kinematic while this runs so physics doesn't fight the scripted move. If it has a CharacterController instead, disables that component while this runs - otherwise the controller's own collision handling can silently reject or immediately undo a direct position/rotation change. Note this cancels a Rigidbody's momentum, not pauses it - a kinematic Rigidbody's velocity reads as zero, so once this restores it to non-kinematic afterward, it resumes at rest (falling fresh from the new position) rather than continuing whatever motion it had before.")]
         public bool cancelPhysicsWhileMoving = true;
 
         [Tooltip("If false, the change applies instantly. If true, it plays out over Duration below.")]
@@ -61,6 +61,7 @@ namespace ColliderEventSystem
         private Coroutine m_ActiveCoroutine;
         private Rigidbody m_SuspendedRigidbody;
         private bool m_SuspendedRigidbodyWasKinematic;
+        private CharacterController m_SuspendedController;
 
         public override void Execute()
         {
@@ -120,19 +121,37 @@ namespace ColliderEventSystem
             if (!cancelPhysicsWhileMoving) return;
 
             Rigidbody rb = targetTransform.GetComponent<Rigidbody>();
-            if (rb == null) return;
+            if (rb != null)
+            {
+                m_SuspendedRigidbody = rb;
+                m_SuspendedRigidbodyWasKinematic = rb.isKinematic;
+                rb.isKinematic = true;
+            }
 
-            m_SuspendedRigidbody = rb;
-            m_SuspendedRigidbodyWasKinematic = rb.isKinematic;
-            rb.isKinematic = true;
+            // A CharacterController fights direct Transform edits while enabled - it re-asserts its own
+            // collision-resolved position, which can make a Set look like it silently did nothing.
+            // Disabling it for the duration of the move is the standard way to teleport one reliably.
+            CharacterController controller = targetTransform.GetComponent<CharacterController>();
+            if (controller != null && controller.enabled)
+            {
+                m_SuspendedController = controller;
+                controller.enabled = false;
+            }
         }
 
         private void RestoreRigidbody()
         {
-            if (m_SuspendedRigidbody == null) return;
+            if (m_SuspendedRigidbody != null)
+            {
+                m_SuspendedRigidbody.isKinematic = m_SuspendedRigidbodyWasKinematic;
+                m_SuspendedRigidbody = null;
+            }
 
-            m_SuspendedRigidbody.isKinematic = m_SuspendedRigidbodyWasKinematic;
-            m_SuspendedRigidbody = null;
+            if (m_SuspendedController != null)
+            {
+                m_SuspendedController.enabled = true;
+                m_SuspendedController = null;
+            }
         }
 
         private struct StartState
